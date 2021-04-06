@@ -1,0 +1,27 @@
+#include "avr/io.h" 					// подключаем библиотеку
+.global start 						// это наш void setup()
+.global forever 					// а это void loop()
+  
+start:							// чтобы найти пин смотрим распиновку arduino uno
+	SBI DDRB, 5; 					// Ставим пин PB5 (на ардуино это 13 пин) на выход OUTPUT
+	CBI DDRB, 0;					// Ставим пин PB0 (на ардуино это 8 пин) на вход INPUT
+	SBI PORTB, 0; 					// добавляем встроенный подтягивающий резистор (INPUT_PULLUP)
+	RET
+      
+forever:
+F1: SBIS PINB, 0;					// Пропускаем следующее действие если кнопка не нажата
+	RJMP F2						// прыгаем на следующее условие
+      while(1) { PORTB ^= (1 << 5);_delay_ms(250); } 	// мигаем светодиодом каждые 250 мс
+	SBIS PINB, 0;					// пропускаем следующее действие если кнопка нажата
+	RJMP F1						// прыгаем на F1 (в начало)
+F2: SBIS PINB, 0;					// далее все аналогично
+	RJMP F3
+      while(1) { PORTB ^= (1 << 5);_delay_ms(750); }
+	SBIS PINB, 0;
+	RJMP F2
+F3: SBIS PINB, 0;
+	RJMP F1
+      while(1) { PORTB ^= (1 << 5);_delay_ms(1500); }
+	SBIS PINB, 4;
+	RJMP F3
+    RET
