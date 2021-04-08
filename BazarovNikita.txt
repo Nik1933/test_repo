@@ -1,0 +1,38 @@
+int val = 0;
+
+void setup()
+{
+  DDRB |= (1 << 5);
+  DDRB |= (0 << 0);
+}
+
+void loop()
+{
+  if (PINB == (1 << 0))
+  {
+    val++;
+    if (val > 2) { val = 0; }
+  }
+
+  if (val == 0)
+  {
+  PORTB |= (1 << 5);
+  delay(250);
+  PORTB &= ~(1 << 5);
+  delay(250);
+  }
+  if (val == 1)
+  {
+  PORTB |= (1 << 5);
+  delay(500);
+  PORTB &= ~(1 << 5);
+  delay(500);
+  }
+  if (val == 2)
+  {
+  PORTB |= (1 << 5);
+  delay(1000);
+  PORTB &= ~(1 << 5);
+  delay(1000);
+  }
+}
