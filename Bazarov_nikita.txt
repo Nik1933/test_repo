@@ -1,0 +1,59 @@
+#include <avr/io.h> 
+int val = 0;
+unsigned long time = 0, previousMillis = 0;
+int interval1 = 500, interval2 = 1000, interval3 = 2000;
+unsigned long currentMillis = millis();
+void setup()
+{
+  DDRB |= (1 << 5);
+  DDRB |= (0 << 0);
+}
+
+void loop()
+{
+  if (PINB == (1 << 0))
+  {
+    val++;
+    if (val > 2) { val = 0; }
+  }
+
+  if (val == 0)
+  {
+  if (currentMillis - previousMillis > interval1)
+{
+  previousMillis = currentMillis;
+  PORTB |= (1 << 5);
+}
+if (currentMillis - previousMillis > interval1)
+{
+  previousMillis = currentMillis;
+  PORTB &= ~(1 << 5);
+}
+  }
+  if (val == 1)
+  {
+  if (currentMillis - previousMillis > interval2)
+{
+  previousMillis = currentMillis;
+  PORTB |= (1 << 5);
+}
+if (currentMillis - previousMillis > interval2)
+{
+  previousMillis = currentMillis;
+  PORTB &= ~(1 << 5);
+}
+  }
+  if (val == 2)
+  {
+  if (currentMillis - previousMillis > interval3)
+{
+  previousMillis = currentMillis;
+  PORTB |= (1 << 5);
+}
+if (currentMillis - previousMillis > interval3)
+{
+  previousMillis = currentMillis;
+  PORTB &= ~(1 << 5);
+}
+  }
+}
